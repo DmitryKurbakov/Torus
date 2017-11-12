@@ -487,6 +487,37 @@ array<int, 2>^ Model::CheckFaces(array<float, 2>^ b)
 	return fm;
 }
 
+String ^ Model::GetString()
+{
+	String^ st;
+
+	st = transVertixMatrix->GetLength(0).ToString() + Environment::NewLine;
+
+	for (size_t i = 0; i < transVertixMatrix->GetLength(0); i++)
+	{
+		for (size_t j = 0; j < transVertixMatrix->GetLength(1) - 1; j++)
+		{
+			st += transVertixMatrix[i, j].ToString()->Replace(",", ".") + " ";
+		}
+		st += Environment::NewLine;
+	}
+
+	st += faceMatrix->GetLength(0) + Environment::NewLine;
+
+	for (size_t i = 0; i < faceMatrix->GetLength(0); i++)
+	{
+		for (size_t j = 0; j < faceMatrix->GetLength(1); j++)
+		{
+			st += faceMatrix[i, j].ToString() + " ";
+		}
+		if (i == faceMatrix->GetLength(0) - 1) break;
+		st += Environment::NewLine;
+	}
+
+	return st;
+}
+
+
 
 
 //void Model::SetSphere(float angle0, float angle1)

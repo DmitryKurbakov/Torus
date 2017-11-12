@@ -26,9 +26,9 @@ MyFormController::~MyFormController()
 void MyFormController::OnFormLoad()
 {
 
-	Sphere^ sp = gcnew Sphere();
+	/*Sphere^ sp = gcnew Sphere();
 
-	sp->SetSphere();
+	sp->SetSphere();*/
 
 	//Bitmap^ inputBitmap = gcnew Bitmap(pictureBox->Image);
 	Bitmap^ resultBitmap = gcnew Bitmap(pictureBox->Image->Width, pictureBox->Image->Height);

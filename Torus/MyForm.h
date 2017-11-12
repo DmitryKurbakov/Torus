@@ -84,6 +84,10 @@ private: System::Windows::Forms::MenuStrip^  menuStrip1;
 private: System::Windows::Forms::ToolStripMenuItem^  îÏðîãðàììåToolStripMenuItem;
 private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 private: System::Windows::Forms::CheckBox^  checkBox1;
+private: System::Windows::Forms::ToolStripMenuItem^  ôàéëToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  îòêðûòüToolStripMenuItem;
+private: System::Windows::Forms::ToolStripMenuItem^  ñîõðàíèòüToolStripMenuItem;
+private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
 
 
 
@@ -133,8 +137,12 @@ private:
 		this->label2 = (gcnew System::Windows::Forms::Label());
 		this->label1 = (gcnew System::Windows::Forms::Label());
 		this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+		this->ôàéëToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+		this->îòêðûòüToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+		this->ñîõðàíèòüToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->îÏðîãðàììåToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+		this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 		this->pictureGroupBox->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox))->BeginInit();
 		this->toolsGroupBox->SuspendLayout();
@@ -487,12 +495,39 @@ private:
 		// 
 		// menuStrip1
 		// 
-		this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->îÏðîãðàììåToolStripMenuItem });
+		this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->ôàéëToolStripMenuItem,
+				this->îÏðîãðàììåToolStripMenuItem
+		});
 		this->menuStrip1->Location = System::Drawing::Point(0, 0);
 		this->menuStrip1->Name = L"menuStrip1";
 		this->menuStrip1->Size = System::Drawing::Size(728, 24);
 		this->menuStrip1->TabIndex = 2;
 		this->menuStrip1->Text = L"menuStrip1";
+		// 
+		// ôàéëToolStripMenuItem
+		// 
+		this->ôàéëToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->îòêðûòüToolStripMenuItem,
+				this->ñîõðàíèòüToolStripMenuItem
+		});
+		this->ôàéëToolStripMenuItem->Name = L"ôàéëToolStripMenuItem";
+		this->ôàéëToolStripMenuItem->Size = System::Drawing::Size(48, 20);
+		this->ôàéëToolStripMenuItem->Text = L"Ôàéë";
+		// 
+		// îòêðûòüToolStripMenuItem
+		// 
+		this->îòêðûòüToolStripMenuItem->Name = L"îòêðûòüToolStripMenuItem";
+		this->îòêðûòüToolStripMenuItem->Size = System::Drawing::Size(162, 22);
+		this->îòêðûòüToolStripMenuItem->Text = L"Îòêðûòü...";
+		this->îòêðûòüToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::îòêðûòüToolStripMenuItem_Click);
+		// 
+		// ñîõðàíèòüToolStripMenuItem
+		// 
+		this->ñîõðàíèòüToolStripMenuItem->Name = L"ñîõðàíèòüToolStripMenuItem";
+		this->ñîõðàíèòüToolStripMenuItem->Size = System::Drawing::Size(162, 22);
+		this->ñîõðàíèòüToolStripMenuItem->Text = L"Ñîõðàíèòü êàê...";
+		this->ñîõðàíèòüToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::ñîõðàíèòüToolStripMenuItem_Click);
 		// 
 		// îÏðîãðàììåToolStripMenuItem
 		// 
@@ -586,6 +621,39 @@ private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::
 }
 private: System::Void îÏðîãðàììåToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	MessageBox::Show("Ñåìèíàð 5. Óäàëåíèå íåâèäèìûõ ëèíèé\nÊóðáàêîâ Ä.Ñ.\nÍà ïàíåëè èíñòðóìåíòîâ ïðåäñòàâëåíû ïîëçóíêè è êíîïêè äëÿ óïðàâëåíèÿ òåëîì\nWindows 10\nVisual Studio 2017\ni7-7700 gtx1070\n18.10.2017");
+}
+private: System::Void îòêðûòüToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+
+	if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+	{
+		controller->fileName = openFileDialog1->FileName;
+		controller->OnFormLoad();
+	}
+
+}
+private: System::Void ñîõðàíèòüToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
+    SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog;
+    saveFileDialog1->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+	saveFileDialog1->FileName = "model.txt";
+    saveFileDialog1->FilterIndex = 0;
+    saveFileDialog1->RestoreDirectory = true;
+    if ( saveFileDialog1->ShowDialog() == ::DialogResult::OK )
+    {
+         
+			//System::IO::File::WriteAllText(saveFileDialog1->FileName, controller->mod->tet->GetString());
+
+			StreamWriter^ sw = gcnew StreamWriter(saveFileDialog1->FileName);
+
+			sw->Write(controller->mod->tet->GetString());
+
+			sw->Close();
+        // Code to write the stream goes here.
+			
+        //myStream->Close();
+         
+    }
 }
 };
 

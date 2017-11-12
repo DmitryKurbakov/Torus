@@ -43,7 +43,7 @@ public:
 	array<float, 2>^ GetFixedMatrix(array<float, 2>^ b, array<float>^ m);
 	array<int, 2>^ CheckFaces(array<float, 2>^ b);
 
-
+	String^ GetString();
 	//void SetSphere(float angle0, float angle1);
 };
 
